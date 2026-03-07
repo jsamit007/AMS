@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.1.0" />
     <PackageReference Include="FluentValidation" Version="11.8.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
@@ -29,6 +29,7 @@
     <ProjectReference Include="..\AMS.Command\AMS.Command.csproj" />
     <ProjectReference Include="..\AMS.Query\AMS.Query.csproj" />
     <ProjectReference Include="..\AMS.Contracts\AMS.Contracts.csproj" />
+    <ProjectReference Include="..\AMS.Authentication\AMS.Authentication.csproj" />
   </ItemGroup>
 
 </Project>

@@ -65,6 +65,40 @@ AMS/                                    # Root solution folder
 │   └── bin/                            # Compiled binaries (gitignored)
 │   └── obj/                            # Intermediate build files (gitignored)
 │
+├── AMS.Authentication/                 # Authentication & Authorization Layer
+│   ├── AMS.Authentication.csproj       # Project file
+│   │
+│   ├── Configuration/                  # Security settings
+│   │   └── AuthenticationSettings.cs   # JWT, password, lockout configs
+│   │
+│   ├── DTOs/                           # Data Transfer Objects
+│   │   └── AuthenticationDtos.cs       # Login, Register, Token responses
+│   │
+│   ├── Models/                         # Domain models
+│   │   ├── AppUser.cs                  # Extended IdentityUser
+│   │   ├── AppRole.cs                  # Extended IdentityRole
+│   │   ├── RefreshToken.cs             # OAuth 2.0 refresh token
+│   │   └── RolePermission.cs           # Fine-grained permissions
+│   │
+│   ├── Services/                       # Core services
+│   │   ├── Interfaces/                 # Service contracts
+│   │   │   ├── IAuthenticationService.cs
+│   │   │   ├── ITokenService.cs
+│   │   │   └── IRoleService.cs
+│   │   ├── AuthenticationService.cs    # Login, register, password mgmt
+│   │   ├── TokenService.cs             # JWT generation & validation
+│   │   └── RoleService.cs              # Role & permission management
+│   │
+│   ├── Validators/                     # FluentValidation rules
+│   │   └── AuthenticationValidators.cs # Login, register, password validators
+│   │
+│   ├── Extensions/                     # DI & configuration
+│   │   └── AuthenticationExtensions.cs # Service registration & policies
+│   │
+│   ├── README.md                       # Authentication documentation
+│   │
+│   └── obj/                            # Intermediate build files (gitignored)
+│
 ├── AMS.Repository/                     # Data Access Layer
 │   ├── AMS.Repository.csproj
 │   │

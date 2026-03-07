@@ -187,6 +187,99 @@ Open Swagger UI: `https://localhost:7001/swagger`
 
 You should see the API schema with all endpoints listed.
 
+## Authentication Setup
+
+### JWT Configuration
+
+Edit `AMS.API/appsettings.{Environment}.json` and add/configure the Authentication section:
+
+```json
+{
+  "Authentication": {
+    "Jwt": {
+      "SecretKey": "your-super-secret-key-minimum-32-characters-long-e.g.-prod-use-strong-random-string",
+      "Issuer": "ams-api",
+      "Audience": "ams-users",
+      "AccessTokenExpirationMinutes": 15,
+      "RefreshTokenExpirationDays": 7,
+      "RequireHttpsMetadata": false,
+      "ValidateIssuer": true,
+      "ValidateAudience": true,
+      "ValidateIssuerSigningKey": true,
+      "ValidateLifetime": true,
+      "ClockSkewSeconds": 60
+    },
+    "PasswordPolicy": {
+      "MinimumLength": 8,
+      "RequireUppercase": true,
+      "RequireLowercase": true,
+      "RequireDigits": true,
+      "RequireNonAlphanumericCharacters": true,
+      "MaxPasswordAgeDays": 90,
+      "PasswordHistoryCount": 5
+    },
+    "AccountLockout": {
+      "MaxFailedLoginAttempts": 5,
+      "LockoutDurationMinutes": 15,
+      "IsEnabled": true
+    },
+    "EnableMfa": false,
+    "SessionTimeoutMinutes": 30,
+    "EnableIpRestriction": false,
+    "AllowedIpAddresses": ""
+  }
+}
+```
+
+### Initialize Default Roles (Optional)
+
+Create a data seed class or manually create roles in the database:
+
+**Default System Roles**:
+- **Admin** - Full system access
+- **Manager** - Department and team management  
+- **User** - Basic employee access
+
+**Using Identity API** (add to `Program.cs` or startup code):
+
+```csharp
+// Seed default roles  
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<AppRole>>();
+    
+    string[] roleNames = { "Admin", "Manager", "User" };
+    
+    foreach (var roleName in roleNames)
+    {
+        var roleExist = await roleManager.RoleExistsAsync(roleName);
+        if (!roleExist)
+        {
+            await roleManager.CreateAsync(new AppRole { Name = roleName });
+        }
+    }
+}
+```
+
+### Test Authentication
+
+1. **Register a user** (via API endpoint):
+   ```
+   POST /api/auth/register
+   ```
+
+2. **Login** to get tokens:
+   ```
+   POST /api/auth/login
+   ```
+
+3. **Use access token** in protected endpoints:
+   ```
+   Authorization: Bearer <access-token>
+   ```
+
+For detailed authentication examples, see [AMS.Authentication/README.md](../AMS.Authentication/README.md).
+
 ## Development Setup
 
 ### IDE Configuration

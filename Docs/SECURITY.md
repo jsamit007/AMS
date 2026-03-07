@@ -4,7 +4,75 @@ Comprehensive security documentation covering authentication, authorization, and
 
 ## Overview
 
-The AMS implements industry-standard security practices including JWT authentication, role-based access control, and encrypted sensitive data.
+The AMS implements enterprise-grade security practices with a dedicated authentication layer (AMS.Authentication) featuring JWT authentication, OAuth 2.0 refresh tokens, role-based access control, and account security mechanisms.
+
+## AMS.Authentication Module
+
+The dedicated `AMS.Authentication` project provides:
+
+### Core Features
+
+- **JWT Access Tokens** (short-lived, default 15 minutes)
+- **OAuth 2.0 Refresh Tokens** (long-lived, default 7 days, revocable)
+- **AsP.NET Core Identity** (Bcrypt password hashing, identity management)
+- **Role-Based Access Control** (RBAC) with role hierarchy
+- **Fine-Grained Permissions** (resource:action format, e.g., "attendance:create")
+- **Account Security**:
+  - Account lockout after failed login attempts
+  - Password complexity enforcement
+  - Password expiration and history
+  - Account active/locked status tracking
+  - Last login timestamp
+- **Comprehensive Audit Logging**:
+  - Authentication events logged with IP address and user agent
+  - Token revocation tracking
+  - Failed login attempt tracking
+
+### Services
+
+**IAuthenticationService** - User authentication and account management
+- `AuthenticateAsync()` - Login with email/password
+- `RegisterAsync()` - User registration with validation
+- `ChangePasswordAsync()` - Secure password change
+- `LogoutAsync()` - Logout and token revocation
+
+**ITokenService** - JWT and refresh token operations
+- `GenerateAccessToken()` - Create JWT with security claims
+- `GenerateRefreshTokenAsync()` - Create secure refresh token
+- `ValidateToken()` - Token validation with full chain verification
+- `RevokeTokenAsync()` - Revoke specific refresh token
+- `RevokeAllTokensAsync()` - Revoke all user tokens (security event)
+
+**IRoleService** - Role and permission management
+- `CreateRoleAsync()` - Create new roles with permissions
+- `AssignRoleToUserAsync()` - Assign roles to users
+- `GetUserPermissionsAsync()` - Get all user permissions
+- `AssignPermissionAsync()` - Assign permissions to roles
+
+### Models
+
+**AppUser** - Extended IdentityUser with:
+- Employee ID reference
+- Account active/locked status
+- Last login timestamp
+- Password change tracking
+- Refresh token collection
+
+**AppRole** - Extended IdentityRole with:
+- Description and priority
+- System role flag (protected from deletion)
+- Permission collection
+
+**RefreshToken** - OAuth 2.0 refresh token with:
+- Cryptographically secure token storage
+- Expiration and revocation tracking
+- IP address and user agent logging
+- Revocation reason tracking
+
+**RolePermission** - Fine-grained access control:
+- Permission naming: `"resource:action"` (e.g., `"attendance:create"`)
+- Active/inactive status
+- Revocable permissions
 
 ## Authentication
 

@@ -9,7 +9,9 @@ The Attendance Management System is a modern, cloud-ready ASP.NET Core 9.0 API b
 - **Real-time Attendance Tracking**: Check-in/check-out management with timestamp precision
 - **Leave Management**: Complete leave request workflow with approval chains
 - **Department Management**: Organizational structure and hierarchy management
-- **Role-Based Access Control**: Fine-grained permission management
+- **JWT Authentication**: Secure token-based authentication with refresh tokens
+- **Role-Based Access Control (RBAC)**: Fine-grained permission management with role hierarchy
+- **Account Security**: Account lockout, password complexity enforcement, audit trails
 - **CloudWatch Integration**: AWS CloudWatch logging for monitoring and diagnostics
 - **RESTful API**: Comprehensive API endpoints with Swagger documentation
 - **PostgreSQL Database**: Reliable, scalable relational database
@@ -65,6 +67,7 @@ The Attendance Management System is a modern, cloud-ready ASP.NET Core 9.0 API b
 ```
 AMS/
 ├── AMS.API/                 # Web API (entry point)
+├── AMS.Authentication/      # Authentication & Authorization (JWT, Identity, RBAC)
 ├── AMS.Repository/          # Data access layer
 │   ├── Entities/           # Database entities
 │   ├── Context/            # DbContext
@@ -73,6 +76,7 @@ AMS/
 │   └── Configuration/      # EF Core Fluent API
 ├── AMS.Command/            # Command handlers (write operations)
 ├── AMS.Query/              # Query handlers (read operations)
+├── AMS.Contracts/          # Shared DTOs and validation
 ├── Docs/                   # Documentation (this folder)
 └── AMS.sln                 # Solution file
 ```
@@ -103,11 +107,18 @@ AMS/
 - Manager assignments
 - Active/inactive status
 
-### 5. Security
-- JWT Bearer token authentication
-- Role-based authorization (Admin, Manager, Employee, HR)
-- Policy-based access control
-- CORS configuration for multi-origin access
+### 5. Security & Authentication
+- **JWT Bearer Token Authentication**: Secure token-based authentication
+- **Refresh Token Mechanism**: OAuth 2.0 compliant token renewal
+- **Role-Based Access Control (RBAC)**: Admin, Manager, User roles with hierarchy
+- **Fine-Grained Permissions**: Resource:action format (e.g., "attendance:create")
+- **Account Security**: 
+  - Password complexity enforcement (8+ chars, mixed case, digits, special chars)
+  - Bcrypt password hashing
+  - Account lockout after failed login attempts
+  - Audit logging of all authentication events
+- **Claims-Based Authorization**: Extensible policy definitions
+- **CORS Configuration**: Multi-origin access with configurable origins
 
 ### 6. Logging & Monitoring
 - Structured logging with Serilog
