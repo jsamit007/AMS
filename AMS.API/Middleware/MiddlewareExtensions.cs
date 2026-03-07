@@ -4,6 +4,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using AMS.Repository.Extensions;
+using AMS.Contracts.Behaviors;
+using AMS.Contracts.Validators;
+using AMS.Contracts.DTOs;
+using FluentValidation;
 using MediatR;
 
 namespace AMS.API.Middleware
@@ -22,6 +26,16 @@ namespace AMS.API.Middleware
             // Add repositories
             services.AddRepositories(connectionString);
 
+            // Add FluentValidation - manually register validators
+            services.AddScoped<IValidator<CreateAttendanceDto>, CreateAttendanceDtoValidator>();
+            services.AddScoped<IValidator<UpdateAttendanceDto>, UpdateAttendanceDtoValidator>();
+            services.AddScoped<IValidator<CreateEmployeeDto>, CreateEmployeeDtoValidator>();
+            services.AddScoped<IValidator<UpdateEmployeeDto>, UpdateEmployeeDtoValidator>();
+            services.AddScoped<IValidator<CreateDepartmentDto>, CreateDepartmentDtoValidator>();
+            services.AddScoped<IValidator<UpdateDepartmentDto>, UpdateDepartmentDtoValidator>();
+            services.AddScoped<IValidator<CreateLeaveDto>, CreateLeaveDtoValidator>();
+            services.AddScoped<IValidator<UpdateLeaveDto>, UpdateLeaveDtoValidator>();
+
             // Add MediatR for CQRS - scan both Command and Query assemblies
             services.AddMediatR(cfg =>
             {
@@ -29,6 +43,9 @@ namespace AMS.API.Middleware
                 var assembly1 = typeof(AMS.Command.Commands.Attendance.MarkAttendanceCommand).Assembly;
                 var assembly2 = typeof(AMS.Query.Queries.Attendance.GetAttendanceQuery).Assembly;
                 cfg.RegisterServicesFromAssemblies(assembly1, assembly2);
+                
+                // Register validation behavior for automatic validation
+                cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
             });
 
             // Configure CORS
