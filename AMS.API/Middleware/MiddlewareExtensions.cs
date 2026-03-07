@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using AMS.Repository.Extensions;
+using MediatR;
 
 namespace AMS.API.Middleware
 {
@@ -13,6 +15,22 @@ namespace AMS.API.Middleware
         /// </summary>
         public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
         {
+            // Get database connection string
+            var connectionString = configuration.GetConnectionString("DefaultConnection") 
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+            // Add repositories
+            services.AddRepositories(connectionString);
+
+            // Add MediatR for CQRS - scan both Command and Query assemblies
+            services.AddMediatR(cfg =>
+            {
+                // Scan for handlers in Command and Query projects
+                var assembly1 = typeof(AMS.Command.Commands.Attendance.MarkAttendanceCommand).Assembly;
+                var assembly2 = typeof(AMS.Query.Queries.Attendance.GetAttendanceQuery).Assembly;
+                cfg.RegisterServicesFromAssemblies(assembly1, assembly2);
+            });
+
             // Configure CORS
             CorsPolicyMiddleware.ConfigureCors(services, configuration);
 

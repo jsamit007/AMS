@@ -19,10 +19,15 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AMS.Repository\AMS.Repository.csproj" />
+    <ProjectReference Include="..\AMS.Command\AMS.Command.csproj" />
+    <ProjectReference Include="..\AMS.Query\AMS.Query.csproj" />
+    <ProjectReference Include="..\AMS.Contracts\AMS.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

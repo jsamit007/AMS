@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMS.Query", "AMS.Query\AMS.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMS.Repository", "AMS.Repository\AMS.Repository.csproj", "{7EEA9989-0968-42D8-B503-856DA7D17245}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AMS.Contracts", "AMS.Contracts\AMS.Contracts.csproj", "{BBD5DD9A-F474-468F-9621-99C6BD048F88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,18 @@ Global
 		{7EEA9989-0968-42D8-B503-856DA7D17245}.Release|x64.Build.0 = Release|Any CPU
 		{7EEA9989-0968-42D8-B503-856DA7D17245}.Release|x86.ActiveCfg = Release|Any CPU
 		{7EEA9989-0968-42D8-B503-856DA7D17245}.Release|x86.Build.0 = Release|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Debug|x64.Build.0 = Debug|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Debug|x86.Build.0 = Debug|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Release|x64.ActiveCfg = Release|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Release|x64.Build.0 = Release|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Release|x86.ActiveCfg = Release|Any CPU
+		{BBD5DD9A-F474-468F-9621-99C6BD048F88}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

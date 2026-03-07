@@ -1,4 +1,4 @@
-using AMS.API.DTOs;
+using AMS.Contracts.DTOs;
 
 namespace AMS.API.Interfaces
 {

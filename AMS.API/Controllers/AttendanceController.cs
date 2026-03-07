@@ -1,5 +1,8 @@
-using AMS.API.DTOs;
+using AMS.Contracts.DTOs;
 using AMS.API.Interfaces;
+using AMS.Command.Commands.Attendance;
+using AMS.Query.Queries.Attendance;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +14,12 @@ namespace AMS.API.Controllers
     public class AttendanceController : ControllerBase, IAttendanceApiController
     {
         private readonly ILogger<AttendanceController> _logger;
+        private readonly IMediator _mediator;
 
-        public AttendanceController(ILogger<AttendanceController> logger)
+        public AttendanceController(ILogger<AttendanceController> logger, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
         [HttpPost("mark")]
@@ -24,10 +29,8 @@ namespace AMS.API.Controllers
             {
                 _logger.LogInformation("Marking attendance for employee {EmployeeId} on {Date}", dto.EmployeeId, dto.Date);
                 
-                // TODO: Implement business logic
-                var attendance = new AttendanceDto
+                var command = new MarkAttendanceCommand
                 {
-                    Id = 1,
                     EmployeeId = dto.EmployeeId,
                     Date = dto.Date,
                     CheckInTime = dto.CheckInTime,
@@ -36,7 +39,8 @@ namespace AMS.API.Controllers
                     Remarks = dto.Remarks
                 };
 
-                return new ApiResponse<AttendanceDto>(true, "Attendance marked successfully", attendance);
+                var result = await _mediator.Send(command);
+                return result;
             }
             catch (Exception ex)
             {
@@ -52,10 +56,9 @@ namespace AMS.API.Controllers
             {
                 _logger.LogInformation("Getting attendance record {Id}", id);
                 
-                // TODO: Implement business logic
-                var attendance = new AttendanceDto { Id = id };
-                
-                return new ApiResponse<AttendanceDto>(true, "Attendance retrieved successfully", attendance);
+                var query = new GetAttendanceQuery { Id = id };
+                var result = await _mediator.Send(query);
+                return result;
             }
             catch (Exception ex)
             {
@@ -69,13 +72,17 @@ namespace AMS.API.Controllers
         {
             try
             {
-                _logger.LogInformation("Getting attendance for employee {EmployeeId}", employeeId);
+                _logger.LogInformation("Getting attendance for employee {EmployeeId}, page {PageNumber}", employeeId, pageNumber);
                 
-                // TODO: Implement business logic
-                var items = new List<AttendanceDto> { new AttendanceDto { EmployeeId = employeeId } };
-                var response = new PaginatedResponse<AttendanceDto>(items, pageNumber, pageSize, 1);
-                
-                return new ApiResponse<PaginatedResponse<AttendanceDto>>(true, "Attendance retrieved successfully", response);
+                var query = new GetAttendanceByEmployeeQuery
+                {
+                    EmployeeId = employeeId,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+
+                var result = await _mediator.Send(query);
+                return result;
             }
             catch (Exception ex)
             {
@@ -91,11 +98,16 @@ namespace AMS.API.Controllers
             {
                 _logger.LogInformation("Getting attendance from {FromDate} to {ToDate}", fromDate, toDate);
                 
-                // TODO: Implement business logic
-                var items = new List<AttendanceDto>();
-                var response = new PaginatedResponse<AttendanceDto>(items, pageNumber, pageSize, 0);
-                
-                return new ApiResponse<PaginatedResponse<AttendanceDto>>(true, "Attendance retrieved successfully", response);
+                var query = new GetAttendanceByDateRangeQuery
+                {
+                    FromDate = fromDate,
+                    ToDate = toDate,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+
+                var result = await _mediator.Send(query);
+                return result;
             }
             catch (Exception ex)
             {
@@ -111,10 +123,16 @@ namespace AMS.API.Controllers
             {
                 _logger.LogInformation("Updating attendance {Id}", id);
                 
-                // TODO: Implement business logic
-                var attendance = new AttendanceDto { Id = id };
-                
-                return new ApiResponse<AttendanceDto>(true, "Attendance updated successfully", attendance);
+                var command = new UpdateAttendanceCommand
+                {
+                    Id = id,
+                    CheckOutTime = dto.CheckOutTime,
+                    Status = dto.Status,
+                    Remarks = dto.Remarks
+                };
+
+                var result = await _mediator.Send(command);
+                return result;
             }
             catch (Exception ex)
             {
@@ -131,9 +149,9 @@ namespace AMS.API.Controllers
             {
                 _logger.LogInformation("Deleting attendance {Id}", id);
                 
-                // TODO: Implement business logic
-                
-                return new ApiResponse<bool>(true, "Attendance deleted successfully", true);
+                var command = new DeleteAttendanceCommand { Id = id };
+                var result = await _mediator.Send(command);
+                return result;
             }
             catch (Exception ex)
             {

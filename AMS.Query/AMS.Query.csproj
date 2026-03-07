@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AMS.Repository\AMS.Repository.csproj" />
-    <ProjectReference Include="..\AMS.API\AMS.API.csproj" />
+    <ProjectReference Include="..\AMS.Contracts\AMS.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

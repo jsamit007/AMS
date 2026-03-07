@@ -1,4 +1,4 @@
-using AMS.API.DTOs;
+using AMS.Contracts.DTOs;
 using AMS.Command.Commands.Attendance;
 using AMS.Repository.UnitOfWork;
 using MediatR;

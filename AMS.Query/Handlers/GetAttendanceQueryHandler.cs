@@ -1,4 +1,4 @@
-using AMS.API.DTOs;
+using AMS.Contracts.DTOs;
 using AMS.Query.Queries.Attendance;
 using RepoAttendance = AMS.Repository.Entities.Attendance;
 using AMS.Repository.UnitOfWork;

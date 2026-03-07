@@ -1,4 +1,4 @@
-using AMS.API.DTOs;
+using AMS.Contracts.DTOs;
 using MediatR;
 
 namespace AMS.Command.Commands.Attendance
