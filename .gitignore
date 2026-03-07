@@ -175,3 +175,8 @@ publish/
 /AMS.API/obj/AMS.API.csproj.nuget.g.props
 /AMS.API/obj/project.assets.json
 /AMS.API/obj/project.nuget.cache
+/AMS.Repository/obj/AMS.Repository.csproj.nuget.dgspec.json
+/AMS.Repository/obj/AMS.Repository.csproj.nuget.g.props
+/AMS.Repository/obj/AMS.Repository.csproj.nuget.g.targets
+/AMS.Repository/obj/project.assets.json
+/AMS.Repository/obj/project.nuget.cache
