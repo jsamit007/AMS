@@ -7,8 +7,15 @@ namespace AMS.API.DTOs
         public T? Data { get; set; }
         public List<string> Errors { get; set; }
 
-        public ApiResponse()
+        public ApiResponse(bool v)
         {
+            Errors = new List<string>();
+        }
+
+        public ApiResponse(bool success, string message)
+        {
+            Success = success;
+            Message = message;
             Errors = new List<string>();
         }
 

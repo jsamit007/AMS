@@ -1,4 +1,5 @@
 using AMS.Repository.Context;
+using AMS.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace AMS.Repository.Repository
