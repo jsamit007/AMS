@@ -180,3 +180,4 @@ publish/
 /AMS.Repository/obj/AMS.Repository.csproj.nuget.g.targets
 /AMS.Repository/obj/project.assets.json
 /AMS.Repository/obj/project.nuget.cache
+/AMS.API/obj/AMS.API.csproj.nuget.g.targets

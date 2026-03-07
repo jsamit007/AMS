@@ -1,6 +1,5 @@
-// Example configuration for Program.cs when creating the API host
-
 using AMS.API.Middleware;
+using AMS.Repository.Migrations;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,5 +53,16 @@ if (app.Environment.IsDevelopment())
 
 // Map controllers
 app.MapControllers();
+
+// Initialize database and run migrations
+try
+{
+    await DataInitializer.InitializeDatabaseAsync(app.Services);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Database initialization failed: {ex.Message}");
+    throw;
+}
 
 app.Run();
