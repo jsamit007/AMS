@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    
+    - name: Run tests
+      run: dotnet test --configuration Release --no-build
+    
+    - name: Publish API Release
+      run: dotnet publish AMS.API/AMS.API.csproj -c Release -o ./publish/api
+    
+    - name: Create Release Archive
+      run: |
+        cd ./publish/api
+        tar -czf ams-api-${{ github.ref_name }}.tar.gz .
+        mv ams-api-*.tar.gz ${{ github.workspace }}/
+    
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          ams-api-*.tar.gz
+        draft: false
+        prerelease: false
+        body: |
+          ## Release Notes for ${{ github.ref_name }}
+          
+          This release includes:
+          - Built with .NET 9.0
+          - All tests passing
+          - Production-ready API build
+          
+          ### Installation
+          Extract the archive and deploy to your server.
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

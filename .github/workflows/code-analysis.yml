@@ -1,0 +1,34 @@
+name: Code Analysis
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONARCLOUD_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+      with:
+        args: >
+          -Dsonar.projectKey=AMS
+          -Dsonar.organization=your-organization
+    
+    - name: Archive SonarCloud report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: sonar-report
+        path: .sonarqube
+        retention-days: 30
